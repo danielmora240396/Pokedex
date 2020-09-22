@@ -18,7 +18,6 @@ const controlSearch = async () => {
     }
 }
 
-
 const initialSearch = async () => {
     state.search = new Search(document.querySelector('#searchBox').value.trim().toLowerCase());
     document.querySelector(".result").innerHTML = "";
@@ -39,6 +38,7 @@ const getPokemon = async () => {
 }
 
 const filterPokemon = (string) => {
+    
     document.querySelector(".result").innerHTML = "";
     for (const iterator of state.search.pokemonListDetails) {
         if (iterator.name.startsWith(string)) {
@@ -50,16 +50,13 @@ const filterPokemon = (string) => {
 
 }
 
-const showPokemon = (id) =>{
-    let element;
-    for (const e of state.search.pokemonListDetails) {
-        if (e.id == id) {
-            element = e;
-            break;
-        }
+const showPokemon = async (id) =>{
+    try {
+        let element = await state.search.getData(id);
+        SearchView.renderSearch(element);
+    } catch (error) {
+        
     }
-    console.log(element);
-    SearchView.renderSearch(element);
 
 }
 
@@ -73,7 +70,21 @@ window.addEventListener('load', e => {
         } else {
             initialSearch();
         }
-    })
+    });
+
+    document.querySelector('.searchButton').addEventListener('click', e => {
+        e.preventDefault();
+        if (document.querySelector('.formSearch input').value !== "") {
+            filterPokemon(document.querySelector('.formSearch input').value.toLowerCase().trim());
+        }
+    });
+
+    document.querySelector('.clearButton').addEventListener('click', e => {
+        e.preventDefault();
+        initialSearch();
+    });
+
+
 
     document.querySelector('.formSearch input').addEventListener('keyup', e => {
         /*if (document.querySelector('.formSearch input').value === "" && e.which === 8) {

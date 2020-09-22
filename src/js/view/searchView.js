@@ -36,3 +36,17 @@ export const renderTiles = (data) => {
         document.querySelector(".result").insertAdjacentHTML('beforeend' , markup);
 
 }
+
+export const renderLoader = () => {
+    const markup =`<div class="loader">
+                        <img src="loader.png" alt="">
+                    </div>`;
+    document.querySelector(".result").insertAdjacentHTML('beforeend' , markup);
+}
+
+export const clearLoader = () => {
+    const element = document.querySelector('.loader');
+    if (element) {
+        element.parentNode.removeChild(element); 
+     }
+}

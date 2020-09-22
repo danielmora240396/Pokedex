@@ -1,4 +1,5 @@
 import axios from 'axios';
+import * as SearchView from '../view/searchView';
 
 export default class Search {
     constructor(query) {
@@ -9,16 +10,16 @@ export default class Search {
 
     async initalData(){
         try {
-            const data = await axios(`https://pokeapi.co/api/v2/pokemon/?offset=0&limit=100`);
+            const data = await axios(`https://pokeapi.co/api/v2/pokemon/?offset=0&limit=50`);
             this.pokemonList = (data.data.results);
         } catch (error) {
             return error;
         }
     }
 
-    async getData() {
+    async getData(query) {
         try {
-            const data = await axios(`https://pokeapi.co/api/v2/pokemon/${this.query}/`);
+            const data = await axios(`https://pokeapi.co/api/v2/pokemon/${query}/`);
             return data.data;
         } catch (error) {
             return error;
