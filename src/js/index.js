@@ -3,102 +3,73 @@ import * as SearchView from './view/searchView.js';
 
 const state = {};
 
-const controlSearch = async () => {
-    if (document.querySelector('#searchBox').value.trim() !== "") {
-        state.search = new Search(document.querySelector('#searchBox').value.trim());
-        try {
-            const data = await state.search.getData();
-            const evolutionChain = await state.search.getEvolutions();
-            SearchView.renderSearch(data);
-        } catch (error) {
-            console.log(error);
-        }
-    } else {
-        initialSearch();
+const getPokemonList = async() => {
+    try {
+        state.pokemon = new Search();
+        await state.pokemon.initialData();
+        SearchView.renderLoader();
+        setTimeout(() => {
+            SearchView.clearLoader();
+            renderPokemonList();
+        }, 3000);
+    } catch (error) {
+        
     }
+    
 }
 
-const initialSearch = async () => {
-    state.search = new Search(document.querySelector('#searchBox').value.trim().toLowerCase());
-    document.querySelector(".result").innerHTML = "";
-    try {
-        await state.search.initalData();
-        getPokemon();
-    } catch (error) {
-        console.log(error);
-    }   
-    console.log(state.search.pokemonList);
-}
-const getPokemon = async () => {
-    for await (const iterator of state.search.pokemonList) {
-        const pokemonDetails = await state.search.getPokemon(iterator.url)
-        state.search.pokemonListDetails.push(pokemonDetails);
-        SearchView.renderTiles(pokemonDetails);
+const renderPokemonList = (array = state.pokemon.pokemonListDetails) =>{
+    document.querySelector(".result").innerHTML= "";
+    for (const iterator of array) {
+        SearchView.renderTiles(iterator);
     }
 }
 
 const filterPokemon = (string) => {
-    
-    document.querySelector(".result").innerHTML = "";
-    for (const iterator of state.search.pokemonListDetails) {
+    document.querySelector(".result").innerHTML= "";
+    SearchView.renderLoader();
+    const data = [];
+    for (const iterator of state.pokemon.pokemonListDetails) {
         if (iterator.name.startsWith(string)) {
-            SearchView.renderTiles(iterator);
-        } else {
-            continue;
+            data.push(iterator);
         }
     }
-
+    setTimeout(() => {
+        SearchView.clearLoader();
+        renderPokemonList(data);
+    }, 500);
 }
 
-const showPokemon = async (id) =>{
-    try {
-        let element = await state.search.getData(id);
-        SearchView.renderSearch(element);
-    } catch (error) {
-        
+const renderPokemonProfile = (id) => {
+    for (const iterator of state.pokemon.pokemonListDetails) {
+        if (iterator.id == id) {
+            SearchView.renderSearch(iterator)
+            break;
+        }
     }
-
 }
+
 
 window.addEventListener('load', e => {
-    //controlSearch();
-    initialSearch();
-    document.querySelector('.formSearch').addEventListener('submit', e => {
-        e.preventDefault();
-        if (document.querySelector('.formSearch input').value !== "") {
-            filterPokemon(document.querySelector('.formSearch input').value.toLowerCase().trim());
-        } else {
-            initialSearch();
-        }
+    document.querySelector('#searchBox').value = "";
+    getPokemonList();
+
+    document.querySelector('#searchBox').addEventListener('input', e=> {
+        filterPokemon(document.querySelector('#searchBox').value.trim());
     });
-
-    document.querySelector('.searchButton').addEventListener('click', e => {
-        e.preventDefault();
-        if (document.querySelector('.formSearch input').value !== "") {
-            filterPokemon(document.querySelector('.formSearch input').value.toLowerCase().trim());
-        }
-    });
-
-    document.querySelector('.clearButton').addEventListener('click', e => {
-        e.preventDefault();
-        initialSearch();
-    });
-
-
-
-    document.querySelector('.formSearch input').addEventListener('keyup', e => {
-        /*if (document.querySelector('.formSearch input').value === "" && e.which === 8) {
-            initialSearch();
-        } */
-    })
 
     document.querySelector('.result').addEventListener('click', e => {
-        if (e.target.matches('.pokemon-card, .pokemon-card div, .pokemon-card img')) {
-            const id = e.target.closest('.pokemon-card');
-            showPokemon(id.id);
+        if (e.target.matches('.pokemon-card, .pokemon-card .name, .pokemon-card .image img, .pokemon-card .image')) {
+            const id = e.target.closest('.pokemon-card').id;
+            renderPokemonProfile(id);
+        } else if (e.target.matches('.close-profile')) {
+            document.querySelector('#searchBox').value = "";
+            renderPokemonList();
         }
     })
+});
+
     
-})
+
 
 
