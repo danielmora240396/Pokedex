@@ -37,7 +37,7 @@
 
 .search {
     text-align: center;
-    padding-top: 10px;
+    padding-top: 20px;
 }
 
 .search input {
@@ -72,6 +72,7 @@
     padding-bottom: 15px;
     margin-bottom: 30px;
     height: 300px;
+    transition: 0.5s;
 }
 
 .pokemon-card:hover {
@@ -82,19 +83,44 @@
     text-align: center;
 }
 
-
 .pokemon-card .image img {
     width: 50%;
     margin-top: 10px;
     height: 180px;
+    
 }
+
 
 .removeCards .col-sm-4 {
     display: none;
 }
 
+.loader {
+    text-align: center;
+}
+
 .loader img {
+    width: 10%;
     animation: rotate 1.5s infinite linear;
+}
+
+.pagination {
+    margin-bottom: 30px;
+    margin-top: 20px;
+    height: 50px;
+    padding-top: 5px;
+}
+
+.pagination a {
+    margin-right: 10px;
+    -webkit-box-shadow: -3px 1px 3px -1px rgba(153,139,153,1);
+    -moz-box-shadow: -3px 1px 3px -1px rgba(153,139,153,1);
+    box-shadow: -3px 1px 3px -1px rgba(153,139,153,1);
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+
 }
 
 @keyframes rotate {
@@ -103,6 +129,201 @@
     100% {
       transform: rotate(360deg); 
     } 
-    }
+}
   
+@media only screen and (max-width: 900px){
+ .pagination {
+     overflow-x: scroll;
+ }
+}
+
+.close-profile {
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    border-color: #e1e1e1;
+    border-style: solid;
+    text-align: center;
+    color: #a1a1a1;
+    font-weight: 700;
+}
+
+.close-profile:hover {
+    cursor: pointer;
+}
+
+.pokemon-type-fire {
+    background-color: #e66348;
+    padding-bottom: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: white;
+    font-weight: 500;
+}
+
+.pokemon-type-flying {
+    background-color: #869ffb;
+    padding-bottom: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: white;
+    font-weight: 500;
+}
+
+
+.pokemon-type-normal {
+    background-color: #bcbcae;
+    padding-bottom: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: white;
+    font-weight: 500;
+}
+
+.pokemon-type-poison {
+    background-color: #a05f9f;
+    padding-bottom: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: white;
+    font-weight: 500;
+}
+
+.pokemon-type-psychic {
+    background-color:#e86cb3;
+    padding-bottom: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: white;
+    font-weight: 500;
+}
+
+.pokemon-type-grass {
+    background-color:#9bd85d;
+    padding-bottom: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: white;
+    font-size: 500;
+}
+
+
+.pokemon-type-ground {
+    background-color:#e2cb61;
+    padding-bottom: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: white;
+    font-weight: 500;
+}
+
+.pokemon-type-ice {
+    background-color: #adeefe;
+    padding-bottom: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: white;
+    font-weight: 500;
+}
+
+.pokemon-type-rock {
+    background-color: #cabf77;
+    padding-bottom: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: white;
+    font-weight: 500;
+}
+
+.pokemon-type-dragon {
+    background-color: #856cfa;
+    padding-bottom: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: white;
+    font-weight: 500;
+}
+
+.pokemon-type-water {
+    background-color:#71a7fc;
+    padding-bottom: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: white;
+    font-weight: 500;
+}
+
+.pokemon-type-bug {
+    background-color:#c2d23b;
+    padding-bottom: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: white;
+    font-weight: 500;
+}
+
+.pokemon-type-dark {
+    background-color:#856955;
+    padding-bottom: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: white;
+    font-weight: 500;
+}
+
+.pokemon-type-fighting {
+    background-color: #9d5b46;
+    padding-bottom: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: white;
+    font-weight: 500;
+}
+
+.pokemon-type-ghost {
+    background-color:#7c72d4;
+    padding-bottom: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: white;
+    font-weight: 500;
+}
+
+.pokemon-type-steel {
+    background-color: #c3c1d8;
+    padding-bottom: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: white;
+    font-weight: 500;
+}
+
+.pokemon-type-electric {
+    background-color:#f8ea50;
+    padding-bottom: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: white;
+    font-weight: 500;
+}
+
+.pokemon-type-fairy {
+    background-color: #f0aefc;
+    padding-bottom: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: white;
+    font-weight: 500;
+}
+
+
+
+
+
+
+
+
+
+
+
 
