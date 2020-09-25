@@ -9,11 +9,15 @@
     <title>Pokedex | Daniel Mora</title>
 
 </head>
+
 <body>
     <div class="header container-fluid">
         <div class="container">
             <div class="row">
-                <div class="col-sm-12 lights">
+                <div class=" col-sm-10">
+                    <input id="searchBox" type="text" placeholder="Pokemon name or Pokemon ID">
+                </div>
+                <div style="text-align: right;" class="col-sm-2 lights">
                     <div class="light">
                     </div>
                     <div class="light">
@@ -27,9 +31,6 @@
     <div class="main container">
         <div class="row">
             <div class="col-sm-12">
-                <div class="search">
-                    <input id="searchBox" type="text" placeholder="Pokemon name or Pokemon ID">
-                </div>
                 <div class="loader">
                     <div>Fetching data...</div>
                     <img class='' src="loader.png" alt="loader">

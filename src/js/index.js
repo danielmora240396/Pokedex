@@ -3,7 +3,7 @@ import * as SearchView from './view/searchView.js';
 
 const state = {};
 
-const getPokemonList = async(offset = 0, limit = 649) => {
+const getPokemonList = async(offset = 0, limit = 493) => {
     try {
         state.pokemon = new Search();
         await state.pokemon.initialData(offset, limit);
@@ -12,7 +12,7 @@ const getPokemonList = async(offset = 0, limit = 649) => {
         setTimeout(() => {
             SearchView.clearLoader();
             renderPokemonList();
-        }, 1100 * (limit/50));
+        }, 1200 * (limit/50));
     } catch (error) {
         alert(error);
     }
@@ -56,52 +56,65 @@ const renderPokemonProfile = (id) => {
     const pokemon = getPokemon(id);
     const pokemonEvolutions = getEvolutions(pokemon.name);
     SearchView.renderSearch(pokemon);
-    pokemonEvolutions.forEach(e => {
-        SearchView.renderEvolutions(12/pokemonEvolutions.length,getPokemon(e));
-    });
+    if (pokemonEvolutions.length > 1) {
+        pokemonEvolutions.forEach(e => {
+            SearchView.renderEvolutions(12/pokemonEvolutions.length,getPokemon(e));
+        });
+    } else {
+        const element = document.querySelector('.pokemon-evolution-headline');
+        element.parentNode.removeChild(element);
+    }
+    
 }
 
 const getEvolutions = (name) => {
     const pokemonList = [];
     for (const iterator of state.pokemon.pokemonEvolutionChainListDetails) {
-        if (iterator.chain.species.name) {
+        if (iterator.chain.species.name && iterator.chain.evolves_to.length > 0) {
             if (name === iterator.chain.species.name) {
                 pokemonList.push(iterator.chain.species.name);
-                if (iterator.chain.evolves_to) {
+                if (iterator.chain.evolves_to.length > 0) {
                     pokemonList.push(iterator.chain.evolves_to[0].species.name);
                 }
-                if(iterator.chain.evolves_to[0].evolves_to){
+                if(iterator.chain.evolves_to[0].evolves_to[0] !== undefined){
                     pokemonList.push(iterator.chain.evolves_to[0].evolves_to[0].species.name);
                 }
+                return pokemonList;
             }
-            if (iterator.chain.evolves_to) {
+            if (iterator.chain.evolves_to!== undefined && iterator.chain.evolves_to.length > 0) {
                 if (name === iterator.chain.evolves_to[0].species.name) {
                     pokemonList.push(iterator.chain.species.name);
                     pokemonList.push(iterator.chain.evolves_to[0].species.name);
 
-                    if(iterator.chain.evolves_to[0].evolves_to){
+                    if(iterator.chain.evolves_to[0].evolves_to[0] !== undefined){
                         pokemonList.push(iterator.chain.evolves_to[0].evolves_to[0].species.name);
                     }
+
+                    return pokemonList;
                 }
+                
             }
-            if(iterator.chain.evolves_to[0].evolves_to[0] !== undefined){
+            if(iterator.chain.evolves_to[0].evolves_to !== undefined && iterator.chain.evolves_to[0].evolves_to.length > 0){
                 if (name === iterator.chain.evolves_to[0].evolves_to[0].species.name) {
                     pokemonList.push(iterator.chain.species.name);
                     pokemonList.push(iterator.chain.evolves_to[0].species.name);
                     pokemonList.push(iterator.chain.evolves_to[0].evolves_to[0].species.name);
+
+                    return pokemonList;
                 }
+                
             }
         }
     }
 
-    return pokemonList;
+    
 }
 
 
 window.addEventListener('load', e => {
     document.querySelector('#searchBox').value = "";
     getPokemonList();
-
+    window.location.hash = "";
     document.querySelector('#searchBox').addEventListener('input', e=> {
         filterPokemon(document.querySelector('#searchBox').value.trim());
     });
@@ -110,14 +123,17 @@ window.addEventListener('load', e => {
         if (e.target.matches('.pokemon-card, .pokemon-card .name, .pokemon-card .image img, .pokemon-card .image')) {
             const id = e.target.closest('.pokemon-card').id;
             renderPokemonProfile(id);
+            state.pokemon.current = id;
         } else if (e.target.matches('.close-profile')) {
             document.querySelector('#searchBox').value = "";
             renderPokemonList();
+            window.location.hash = state.pokemon.current;
         } else if (e.target.matches('.pokemon-evolution, .pokemon-evolution div, .pokemon-evolution img')){
             const id = e.target.closest('.pokemon-evolution').id;
             renderPokemonProfile(id);
             document.body.scrollTop = 0;
             document.documentElement.scrollTop = 0;
+            state.pokemon.current = id;
         }
     })
 });

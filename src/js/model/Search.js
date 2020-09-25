@@ -32,7 +32,7 @@ export default class Search {
 
     async getEvolutionChain() {
         try {
-            const data = await axios('https://pokeapi.co/api/v2/evolution-chain?offset=0&limit=10');
+            const data = await axios('https://pokeapi.co/api/v2/evolution-chain?offset=0&limit=300');
             this.pokemonEvolutionChainList = data.data.results;
             this.getEachPokemonEvolutionChain();
         } catch (error) {
