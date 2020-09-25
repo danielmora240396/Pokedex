@@ -4,9 +4,10 @@ export const renderSearch = (data) => {
     const types = data.types.map(e => {
         return `<span class='pokemon-type-${e.type.name}'>${e.type.name}</span>`;
     })
-    const markup = `<div class='col-sm-12'><div class='close-profile'>X</div></div>
+    const markup = `<div id='pokemon'></div>
+                <div class='col-sm-12'><div class='close-profile'>X</div></div>
                     <div class="col-sm-4 img-result">
-                        <img src="${data.sprites.other.dream_world.front_default}" alt="${data.name}">
+                        <img src="${data.sprites.other['official-artwork'].front_default}" alt="${data.name}">
                     </div>
                     <div class="col-sm-8 content-result">
                         <h2><strong>${data.name.toUpperCase()} #${data.id}</strong></h2>
@@ -45,7 +46,7 @@ export const renderEvolutions = (styleClass, pokemon) => {
     const markup = `<div class='col-sm-${styleClass}'>
     <div id='${pokemon.id}'  class='pokemon-evolution'>
         <div class='evolution-name'>${pokemon.name.toUpperCase()}</div>
-        <div class="imageEvolution"><img src="${pokemon.sprites.other.dream_world.front_default}" alt="${pokemon.name}"></div>
+        <div class="imageEvolution"><img src="${pokemon.sprites.other['official-artwork'].front_default}" alt="${pokemon.name}"></div>
     </div>
     </div>`;
     document.querySelector(".result").insertAdjacentHTML('beforeend', markup);
@@ -55,7 +56,7 @@ export const renderTiles = (data) => {
         const markup = `<div class="col-sm-4">
                             <div id="${data.id}" class="pokemon-card">
                                 <div class="name">${data.name.toUpperCase()}</div>
-                                <div class="image"><img src="${data.sprites.other.dream_world.front_default}" alt="${data.name}"></div>
+                                <div class="image"><img src="${data.sprites.other['official-artwork'].front_default}" alt="${data.name}"></div>
                             </div>
                         </div>`;
 

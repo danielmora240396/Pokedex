@@ -106,7 +106,6 @@ const getEvolutions = (name) => {
             }
         }
     }
-
     
 }
 
@@ -124,6 +123,7 @@ window.addEventListener('load', e => {
             const id = e.target.closest('.pokemon-card').id;
             renderPokemonProfile(id);
             state.pokemon.current = id;
+            window.location.hash = "pokemon";
         } else if (e.target.matches('.close-profile')) {
             document.querySelector('#searchBox').value = "";
             renderPokemonList();
@@ -134,6 +134,7 @@ window.addEventListener('load', e => {
             document.body.scrollTop = 0;
             document.documentElement.scrollTop = 0;
             state.pokemon.current = id;
+            window.location.hash = "pokemon";
         }
     })
 });
