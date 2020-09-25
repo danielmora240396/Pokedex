@@ -1,3 +1,7 @@
+html {
+    scroll-behavior: smooth;
+}
+
 .header {
     background-color: #e83c57;
     padding-top: 20px;
@@ -41,6 +45,7 @@
 }
 
 .search input {
+    width: 300px;
     border-radius: 25px;
     padding-left: 10px;
     padding-right: 10px;
@@ -55,11 +60,15 @@
 }
 
 .img-result img {
-    width: 70%;
+    width: 100%;
 }
 
 .content-result {
 
+}
+
+.pokemon-evolution {
+    text-align: center;
 }
 
 .pokemon-card {
@@ -90,6 +99,31 @@
     
 }
 
+.pokemon-evolution {
+    margin-top: 20px;
+    -webkit-box-shadow: -3px 4px 9px -1px rgba(153,139,153,1);
+    -moz-box-shadow: -3px 4px 9px -1px rgba(153,139,153,1);
+    box-shadow: -3px 4px 9px -1px rgba(153,139,153,1);
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+    height: 250px;
+    transition: 0.5s;
+}
+
+.pokemon-evolution:hover {
+    cursor: pointer;
+}
+
+.pokemon-evolution-headline {
+    margin-top: 30px;
+    font-size: 24px;
+    text-align: center;
+    font-weight: bold;
+}
+    
 
 .removeCards .col-sm-4 {
     display: none;
@@ -135,6 +169,11 @@
  .pagination {
      overflow-x: scroll;
  }
+}
+
+.imageEvolution img {
+    width: 150px;
+    margin-top: 15px;
 }
 
 .close-profile {

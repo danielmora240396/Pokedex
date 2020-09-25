@@ -3,14 +3,17 @@ import axios from 'axios';
 export default class Search {
     constructor() {
         this.pokemonList = [],
-        this.pokemonListDetails = []
+        this.pokemonListDetails = [],
+        this.pokemonEvolutionChainList = [],
+        this.pokemonEvolutionChainListDetails = []
     }
 
-    async initialData(offset = 0){
+    async initialData(offset, limit){
         try {
-            const data = await axios(`https://pokeapi.co/api/v2/pokemon/?offset=0&limit=100`);
+            const data = await axios(`https://pokeapi.co/api/v2/pokemon/?offset=${offset}&limit=${limit}`);
             this.pokemonList = (data.data.results);
             this.getPokemon();
+            console.log(data);
         } catch (error) {
             return error;
         }
@@ -25,6 +28,28 @@ export default class Search {
             }
         }
         
+    }
+
+    async getEvolutionChain() {
+        try {
+            const data = await axios('https://pokeapi.co/api/v2/evolution-chain?offset=0&limit=10');
+            this.pokemonEvolutionChainList = data.data.results;
+            this.getEachPokemonEvolutionChain();
+        } catch (error) {
+            
+        }
+    }
+
+    async getEachPokemonEvolutionChain() {
+        for (const iterator of this.pokemonEvolutionChainList) {
+            try {
+                const data = await axios(iterator.url)
+                this.pokemonEvolutionChainListDetails.push(data.data);
+            } catch (error) {
+                
+            }
+            
+        }
     }
 
 }
