@@ -43,20 +43,31 @@ export const renderSearch = (data) => {
 }
 
 export const renderEvolutions = (styleClass, pokemon) => {
+    const types = pokemon.types.map(e => {
+        return `<span class='pokemon-type-${e.type.name}'>${e.type.name}</span>`;
+    })
+
     const markup = `<div class='col-sm-${styleClass}'>
     <div id='${pokemon.id}'  class='pokemon-evolution'>
         <div class='evolution-name'>${pokemon.name.toUpperCase()}</div>
         <div class="imageEvolution"><img src="${pokemon.sprites.other['official-artwork'].front_default}" alt="${pokemon.name}"></div>
-    </div>
+        <div class='type'>${types.join(' ')}</div>
+        </div>
     </div>`;
     document.querySelector(".result").insertAdjacentHTML('beforeend', markup);
 }
 
 export const renderTiles = (data) => {
+        const types = data.types.map(e => {
+            return `<span class='pokemon-type-${e.type.name}'>${e.type.name}</span>`;
+        })
         const markup = `<div class="col-sm-4">
                             <div id="${data.id}" class="pokemon-card">
                                 <div class="name">${data.name.toUpperCase()}</div>
                                 <div class="image"><img src="${data.sprites.other['official-artwork'].front_default}" alt="${data.name}"></div>
+                                <div class='type'>
+                                    ${types.join(' ')}
+                                </div>
                             </div>
                         </div>`;
 

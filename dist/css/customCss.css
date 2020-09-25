@@ -10,7 +10,9 @@ html {
     position: fixed;
     z-index: 1;
 }
-
+.pokemon-card .type, .pokemon-evolution .type{
+    text-align: center;
+}
 @media only screen and (max-width: 600px){
     .header {
         text-align: center;

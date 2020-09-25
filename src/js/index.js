@@ -119,7 +119,7 @@ window.addEventListener('load', e => {
     });
 
     document.querySelector('.result').addEventListener('click', e => {
-        if (e.target.matches('.pokemon-card, .pokemon-card .name, .pokemon-card .image img, .pokemon-card .image')) {
+        if (e.target.matches('.pokemon-card, .pokemon-card .name, .pokemon-card .image img, .pokemon-card .image, .pokemon-card .type, .pokemon-card span')) {
             const id = e.target.closest('.pokemon-card').id;
             renderPokemonProfile(id);
             state.pokemon.current = id;
@@ -128,7 +128,7 @@ window.addEventListener('load', e => {
             document.querySelector('#searchBox').value = "";
             renderPokemonList();
             window.location.hash = state.pokemon.current;
-        } else if (e.target.matches('.pokemon-evolution, .pokemon-evolution div, .pokemon-evolution img')){
+        } else if (e.target.matches('.pokemon-evolution, .pokemon-evolution div, .pokemon-evolution img, .pokemon-evolution span')){
             const id = e.target.closest('.pokemon-evolution').id;
             renderPokemonProfile(id);
             document.body.scrollTop = 0;
