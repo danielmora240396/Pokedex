@@ -6,13 +6,18 @@ const state = {};
 const getPokemonList = async(offset = 0, limit = 493) => {
     try {
         state.pokemon = new Search();
+        state.pokemon.quantity = limit;
+        state.pokemon.currentPage = "#page1";
+        document.querySelector('.footer').classList.add('fixedFooter');
         await state.pokemon.initialData(offset, limit);
         SearchView.renderLoader();
         await state.pokemon.getEvolutionChain();
         setTimeout(() => {
             SearchView.clearLoader();
             renderPokemonList();
+            document.querySelector('.footer').classList.remove('fixedFooter');
         }, 1200 * (limit/50));
+        
     } catch (error) {
         alert(error);
     }
@@ -21,11 +26,15 @@ const getPokemonList = async(offset = 0, limit = 493) => {
     
 }
 
-const renderPokemonList = (array = state.pokemon.pokemonListDetails) =>{
+const renderPokemonList = (array = state.pokemon.pokemonListDetails, startPage = 0, endPage = 27) =>{
     document.querySelector(".result").innerHTML= "";
-    for (const iterator of array) {
-        SearchView.renderTiles(iterator);
+    for (let index = startPage; index < endPage; index++) {
+        if (array[index] !== undefined) {
+            SearchView.renderTiles(array[index]);
+        }
+        
     }
+    SearchView.renderPagination(state.pokemon.quantity);
 }
 
 const filterPokemon = (string) => {
@@ -56,15 +65,18 @@ const renderPokemonProfile = (id) => {
     const pokemon = getPokemon(id);
     const pokemonEvolutions = getEvolutions(pokemon.name);
     SearchView.renderSearch(pokemon);
-    if (pokemonEvolutions.length > 1) {
-        pokemonEvolutions.forEach(e => {
-            SearchView.renderEvolutions(12/pokemonEvolutions.length,getPokemon(e));
-        });
+    if (pokemonEvolutions !== undefined) {
+        if (pokemonEvolutions.length > 1) {
+            pokemonEvolutions.forEach(e => {
+                SearchView.renderEvolutions(12/pokemonEvolutions.length, getPokemon(e));
+            });
+        } else {
+            const element = document.querySelector('.pokemon-evolution-headline');
+            element.parentNode.removeChild(element);
+        }
     } else {
-        const element = document.querySelector('.pokemon-evolution-headline');
-        element.parentNode.removeChild(element);
+        SearchView.renderEvolutions(12, pokemon);
     }
-    
 }
 
 const getEvolutions = (name) => {
@@ -124,19 +136,35 @@ window.addEventListener('load', e => {
             renderPokemonProfile(id);
             state.pokemon.current = id;
             window.location.hash = "pokemon";
+            document.querySelector('.footer').classList.add('fixedFooter');
         } else if (e.target.matches('.close-profile')) {
             document.querySelector('#searchBox').value = "";
-            renderPokemonList();
+            const page = parseInt((state.pokemon.currentPage).replace('#page', ""));
+            renderPokemonList(undefined, (page*27)-27, page*27);
             window.location.hash = state.pokemon.current;
+            document.querySelector('.footer').classList.remove('fixedFooter');
+            
         } else if (e.target.matches('.pokemon-evolution, .pokemon-evolution div, .pokemon-evolution img, .pokemon-evolution span')){
             const id = e.target.closest('.pokemon-evolution').id;
             renderPokemonProfile(id);
+            document.querySelector('.footer').classList.add('fixedFooter');
             document.body.scrollTop = 0;
             document.documentElement.scrollTop = 0;
             state.pokemon.current = id;
             window.location.hash = "pokemon";
+            
         }
-    })
+    });
+
+    window.addEventListener('hashchange', e => {
+        if (window.location.hash.includes("page")) {
+            state.pokemon.currentPage = window.location.hash;
+            const page = parseInt((window.location.hash).replace('#page', ""));
+            renderPokemonList(undefined, (page*27)-27, page*27);
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    });
 });
 
     

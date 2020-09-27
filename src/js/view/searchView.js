@@ -61,7 +61,7 @@ export const renderTiles = (data) => {
         const types = data.types.map(e => {
             return `<span class='pokemon-type-${e.type.name}'>${e.type.name}</span>`;
         })
-        const markup = `<div class="col-sm-4">
+        const markup = `<div class="col-sm-4 col-md-6 col-lg-4">
                             <div id="${data.id}" class="pokemon-card">
                                 <div class="name">${data.name.toUpperCase()}</div>
                                 <div class="image"><img src="${data.sprites.other['official-artwork'].front_default}" alt="${data.name}"></div>
@@ -89,10 +89,12 @@ export const clearLoader = () => {
 export const renderPagination = (num) =>{
     document.querySelector('.pagination').style.display = "block";
     document.querySelector('.pagination').innerHTML = "";
-    const limit = Math.floor(num/9);
+    const limit = Math.floor(num/27) + 1;
     for (let index = 0; index < limit; index++) {
         const markup = `<a href="#page${index + 1}">${index + 1}</a>`;
         document.querySelector('.pagination').insertAdjacentHTML('beforeend', markup);
     }
+
+    return limit;
 }
 
